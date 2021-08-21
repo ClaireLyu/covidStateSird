@@ -16,7 +16,7 @@ stateSird <- function(stateAbbrev,
                       lagDays = 21,
                       minCases = 1000,
                       endDay = endDate,
-                      endPlotDay = "2021-06-15") {
+                      endPlotDay = "2021-09-15") {
   
   statePop = stateInterventions$statePopulation[which(stateInterventions$stateAbbreviation == stateAbbrev)]
   
@@ -270,7 +270,7 @@ stateSird <- function(stateAbbrev,
     endPlot <- as.Date(endPlotDay)
     plotT <- stateFit$times[which(stateFit$times <= endPlot)]
     
-    pdf(file = paste0(outputPath, "/Plots/",stateAbbrev,".pdf"),
+    cairo_pdf(file = paste0(outputPath, "/Plots/",stateAbbrev,".pdf"),
         width = 24, height = 12)
     par(mfrow = c(2,4))
     

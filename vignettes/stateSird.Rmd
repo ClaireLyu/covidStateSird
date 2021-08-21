@@ -16,7 +16,7 @@ library(doParallel)
 
 
 # set final day of training data -----------------------------------------------
-endDate <- "2021-05-27"
+endDate <- "2021-08-18"
 minCase <- 1000
 
 # toggles "demo" mode, when TRUE exectues an abbreviated run of the model ------
@@ -164,9 +164,9 @@ stateSird('CA',
             lagDays = 21,
             minCases = 1000,
             endDay = endDate,
-            endPlotDay = "2021-06-15")
-timeElapsed <- (Sys.time() - start)
-timeElapsed
+            endPlotDay = "2021-09-15")
+timeElapsed2 <- (Sys.time() - start)
+timeElapsed2
 ```
 ```{r}
 # run state SIRD models --------------------------------------------------------
