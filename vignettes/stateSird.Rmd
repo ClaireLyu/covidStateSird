@@ -16,7 +16,7 @@ library(doParallel)
 
 
 # set final day of training data -----------------------------------------------
-endDate <- "2021-08-18"
+endDate <- "2021-01-19"
 minCase <- 1000
 
 # toggles "demo" mode, when TRUE exectues an abbreviated run of the model ------
@@ -43,7 +43,7 @@ covidDir <- "../"
 
 doParallel::registerDoParallel(cores=5)
 
-outputPath <- file.path(covidDir, "Output", Sys.Date())
+outputPath <- file.path(covidDir, "Output", endDate)
 dir.create(outputPath)
 dir.create(file.path(outputPath, "/Tables/"))
 dir.create(file.path(outputPath, "/Plots/"))
@@ -119,7 +119,7 @@ velocModel <- R2jags::jags(data = velocLogCasesList,
                            DIC = F)
 
 timeElapsed <- (Sys.time() - start)
-timeElapsed
+timeElapsed # 3 hrs for Jan and 5 hrs for August
 
 # plotVelocityFit(velocModel$BUGSoutput$mean,
 #                stateCovidData, states, stateInterventions,
@@ -143,7 +143,8 @@ randomForestDeathModel <- deathForest(stateCovidData,
                                       ntree = ntree)
 
 load(paste0(outputPath, "/CasePosteriorSamples", endDate, ".Rdata"))
-
+```
+```{r}
 # test on CA
 # stateSird("CA", covariates, stateInterventions, stateCovidData, 
 # randomForestDeathModel, posteriorSamples, rfError = T, plots = T, 
