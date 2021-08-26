@@ -1,4 +1,5 @@
 #' @export
+#' @importFrom randomForest predict
 velocitiesState <- function(statesLong, stateAbbrev, stateInterventions = NULL, minCases = 100, endDate = "2099-01-01") {
   # statesLong <- stateCovidData
   # stateAbbrev <- states[1]

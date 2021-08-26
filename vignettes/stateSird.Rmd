@@ -11,8 +11,10 @@ vignette: >
 
 ```{r load_libraries}
 # library(covidStateSird)
+library(randomForest)
 library(foreach)
 library(doParallel)
+library(dplyr)
 
 
 # set final day of training data -----------------------------------------------
@@ -165,11 +167,12 @@ stateSird('CA',
             lagDays = 21,
             minCases = 1000,
             endDay = endDate,
-            endPlotDay = "2021-09-15")
+            endPlotDay = "2021-09-09")
 timeElapsed2 <- (Sys.time() - start)
 timeElapsed2
 ```
 ```{r}
+start <- Sys.time()
 # run state SIRD models --------------------------------------------------------
 foreach(i = 1:length(states)) %dopar% {
   stateSird(states[i],
@@ -186,7 +189,9 @@ foreach(i = 1:length(states)) %dopar% {
             lagDays = 21,
             minCases = 100,
             endDay = endDate,
-            endPlotDay = "2021-06-01")
+            endPlotDay = "2021-02-09")
 }
+timeElapsed3 <- (Sys.time() - start)
+timeElapsed3
 ```
 

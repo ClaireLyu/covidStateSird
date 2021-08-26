@@ -1,5 +1,5 @@
 #' @export
-#' @importFrom randomForest randomForest na.roughfix
+#' @importFrom randomForest randomForest na.roughfix predict
 deathForest <- function(stateCovidData, stateList, covariates, lagDays, fileOut = NULL,
                         ntree = 500) {
   

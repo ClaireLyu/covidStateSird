@@ -1,6 +1,7 @@
 #' @export
 #' @importFrom dplyr %>% lag group_by mutate
 #' @importFrom TTR runMean
+#' @importFrom randomForest predict randomForest
 stateSird <- function(stateAbbrev,
                       states,
                       covariates,
@@ -235,12 +236,11 @@ stateSird <- function(stateAbbrev,
   
   # nT <- length(stateFit$times)
   
-  allStateFit <- as.data.frame(allStateFit %>% dplyr::group_by(replicate) %>%
-                                 dplyr::mutate(Rt = 10 * -c(diff(S), NA)   / I))
+  allStateFit <- as.data.frame(dplyr::mutate(dplyr::group_by(allStateFit, replicate),
+                                             Rt = 10 * -c(diff(S), NA)/I))
   
-  allStateFit <- as.data.frame(allStateFit %>% dplyr::group_by(replicate) %>%
-                                 dplyr::mutate(Rt10 = c(TTR::runMean(10 *
-                                                                       - diff(S) / I[1:(nT-1)])[5:(nT-1)], rep(NA,5))))
+  allStateFit <- as.data.frame(dplyr::mutate(dplyr::group_by(allStateFit, replicate),
+                                             Rt10 = c(TTR::runMean(10 * - diff(S) / I[1:(nT-1)])[5:(nT-1)], rep(NA,5))))
   
   allRt <- matrix(allStateFit$Rt10, nrow = nT,
                   ncol = nSampCompleted, byrow = F)
@@ -329,7 +329,7 @@ multiEpochSird <- function(
   last <- result
   if (length(paramsList) > 1) {
     for (e in 2:length(paramsList)) {
-      df <- last$out %>% filter(.data$times == max(.data$times)) %>% arrange(replicate) %>% select(tidyselect::all_of(compartmentNames))
+      df <- select(arrange(filter(last$out, .data$times == max(.data$times)), replicate), tidyselect::all_of(compartmentNames))
       init <- split(df, seq(nrow(df)))
       epoch <- sirdModel(n.rep, paramsList[[e]], init, transformedTimesList[[e]],
                          interventionList[[e]], nThreads, func, model.output = modelOutput)
